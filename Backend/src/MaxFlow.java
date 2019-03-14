@@ -1,6 +1,3 @@
-//at least 4 and at most 10 nodes, excluding source s and target t nodes.
-//The capacities on the edges should be generated randomly in the range between 5 and 20.
-
 import java.util.Arrays;
 import java.util.LinkedList;
 
