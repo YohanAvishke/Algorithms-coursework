@@ -1,11 +1,9 @@
 // Java program for implementation of Ford Fulkerson algorithm
 
-import java.util.*;
 import java.lang.*;
-import java.io.*;
 import java.util.LinkedList;
 
-class MaxFlow {
+class MaxFlowFulk {
     static final int V = 6; //Number of vertices in graph
 
     // Driver program to test above functions
@@ -18,7 +16,7 @@ class MaxFlow {
                 {0, 0, 0, 7, 0, 4},
                 {0, 0, 0, 0, 0, 0}
         };
-        MaxFlow m = new MaxFlow();
+        MaxFlowFulk m = new MaxFlowFulk();
 
         System.out.println("The maximum possible flow is " +
                 m.fordFulkerson(graph, 0, 5));
