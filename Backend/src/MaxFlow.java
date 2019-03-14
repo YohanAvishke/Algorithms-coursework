@@ -51,7 +51,7 @@ class MaxFlow {
         // Augment the flow while there is path from source
         // to sink
         while (bfs(rGraph, s, t, parent)) {
-            // Find minimum residual capacity of the edhes
+            // Find minimum residual capacity of the edges
             // along the path filled by BFS. Or we can say
             // find the maximum flow through the path found.
             int path_flow = Integer.MAX_VALUE;
@@ -88,7 +88,7 @@ class MaxFlow {
 
         // Create a queue, enqueue source vertex and mark
         // source vertex as visited
-        LinkedList<Integer> queue = new LinkedList<Integer>();
+        LinkedList<Integer> queue = new LinkedList<>();
         queue.add(s);
         visited[s] = true;
         parent[s] = -1;
