@@ -1,5 +1,10 @@
- import java.util.Arrays;
+import java.util.Arrays;
 import java.util.LinkedList;
+
+/*Details
+ * 2D array to display graph
+ * Residual Graph of a flow network is a graph which indicates additional possible flow
+ * Search is done using BFS*/
 
 public class MaxFlow {
     //number of nodes(6 <= nodes <= 12 including s and t)
@@ -33,17 +38,26 @@ public class MaxFlow {
         return graph;
     }
 
-    private int fordFulkerson(int graph[][]) {
+    private int fordFulkerson(int[][] graph) {
         int u, v;
         int s = 0;
         int t = N - 1;
-        int rGraph[][] = new int[N][N];
+        int[][] rGraph = new int[N][N];
 
+        // Residual graph where rGraph[u][v] indicates
+        // residual capacity of edge from u to v (if there
+        // is an edge. If rGraph[u][v] is 0, then there is
+        // not)
         for (u = 0; u < N; u++)
             for (v = 0; v < N; v++)
                 rGraph[u][v] = graph[u][v];
-        int parent[] = new int[N];
+
+        // This array is filled by BFS and to store path
+        int[] parent = new int[N];
         int max_flow = 0; // There is no flow initially
+
+        // Augment the flow while tere is path from source
+        // to sink
         while (bfs(rGraph, s, t, parent)) {
             int path_flow = Integer.MAX_VALUE;
             for (v = t; v != s; v = parent[v]) {
@@ -57,13 +71,12 @@ public class MaxFlow {
             }
             max_flow += path_flow;
         }
+
         return max_flow;
     }
 
-    private boolean bfs(int rGraph[][], int s, int t, int parent[]) {
-        boolean visited[] = new boolean[N];
-        for (int i = 0; i < N; ++i)
-            visited[i] = false;
+    private boolean bfs(int[][] rGraph, int s, int t, int[] parent) {
+        boolean[] visited = new boolean[N];
 
         LinkedList<Integer> queue = new LinkedList<>();
         queue.add(s);
@@ -85,3 +98,4 @@ public class MaxFlow {
         return (visited[t]);
     }
 }
+
