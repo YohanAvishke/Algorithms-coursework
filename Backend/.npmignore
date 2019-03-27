@@ -1,1 +1,15 @@
 images/
+build/*
+!build/sigma.require.js
+!build/sigma.min.js
+!build/plugins/*
+test/*
+node_modules/*
+examples/*
+Gruntfile.js
+CHANGELOG.md
+.travis.yml
+.gitignore
+*.tgz
+*.log
+
