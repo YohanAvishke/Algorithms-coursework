@@ -1,0 +1,28 @@
+{
+  "name": "algorithms-coursework",
+  "version": "1.0.0",
+  "description": "2K19 individual Algorithm coursework",
+  "main": "src/javaScript/index.js",
+  "scripts": {
+    "test": "node test/index.js",
+    "start": "node src/javaScript/example/example.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prabod/Graph-Theory-Ford-Fulkerson.git"
+  },
+  "keywords": [
+    "graph-theory",
+    "ford-fulkerson"
+  ],
+  "author": "Yohan Avishke",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/YohanAvishke/Algorithms-coursework/issues"
+  },
+  "homepage": "https://github.com/YohanAvishke/Algorithms-coursework",
+  "devDependencies": {
+    "tape": "^4.4.0"
+  },
+  "dependencies": {}
+}
