@@ -2,7 +2,7 @@
  * Created by prabod on 2/14/16.
  */
 'use strict'
-var fordFulkerson = require('..');
+var fordFulkerson = require('../../..');
 var graph = [
     [
         0, 16, 13, 0, 0, 0
