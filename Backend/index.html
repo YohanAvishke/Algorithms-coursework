@@ -17,32 +17,29 @@
 <body>
 <div id="container"></div>
 <script src="build/sigma.require.js"></script>
+<!--other plugins-->
+<script src="plugins/sigma.parsers.json/sigma.parsers.json.js"></script><!--read json-->
+<script src="plugins/sigma.plugins.dragNodes/sigma.plugins.dragNodes.js"></script><!--drag nodes-->
+<script src="plugins/sigma.plugins.animate/sigma.plugins.animate.js"></script><!--no overlap-->
+<script src="plugins/sigma.layout.noverlap/sigma.layout.noverlap.js"></script><!--no overlap-->
 <script>
-    /**
-     * This is a basic example on how to instantiate sigma. A random graph is
-     * generated and stored in the "graph" variable, and then sigma is instantiated
-     * directly with the graph.
-     *
-     * The simple instance of sigma is enough to make it render the graph on the on
-     * the screen, since the graph is given directly to the constructor.
-     */
     var i,
         s,
-        N = 100,
-        E = 500,
+        N = 10,
+        E = 15,
         g = {
             nodes: [],
             edges: []
         };
 
-    // Generate a random graph:
+    /* Generate a random graph:
     for (i = 0; i < N; i++)
         g.nodes.push({
             id: 'n' + i,
             label: 'Node ' + i,
             x: Math.random(),
             y: Math.random(),
-            size: Math.random(),
+            size: 1,
             color: '#666'
         });
 
@@ -51,17 +48,61 @@
             id: 'e' + i,
             source: 'n' + (Math.random() * N | 0),
             target: 'n' + (Math.random() * N | 0),
-            size: Math.random(),
+            size: 1,
             color: '#ccc'
-        });
+        });*/
 
     // Instantiate sigma:
-    s = new sigma({
-        graph: g,
-        container: 'container'
+    s = sigma.parsers.json('data/graph_data.json', {
+        container: 'container',
+
+        renderer: {
+            container: document.getElementById('container'),
+            type: sigma.renderers.canvas
+        },
+        settings: {
+            minArrowSize: 10
+        }
     });
 
-    s.refresh()
+    // Initialize the dragNodes plugin:
+    var dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
+
+    dragListener.bind('startdrag', function (event) {
+        console.log(event);
+    });
+    dragListener.bind('drag', function (event) {
+        console.log(event);
+    });
+    dragListener.bind('drop', function (event) {
+        console.log(event);
+    });
+    dragListener.bind('dragend', function (event) {
+        console.log(event);
+    });
+
+    // Configure the noverlap layout:
+    var noverlapListener = s.configNoverlap({
+        nodeMargin: 0.1,
+        scaleNodes: 1.05,
+        gridSize: 75,
+        easing: 'quadraticInOut', // animation transition function
+        duration: 10000   // animation duration. Long here for the purposes of this example only
+    });
+    // Bind the events:
+    noverlapListener.bind('start stop interpolate', function (e) {
+        console.log(e.type);
+        if (e.type === 'start') {
+            console.time('noverlap');
+        }
+        if (e.type === 'interpolate') {
+            console.timeEnd('noverlap');
+        }
+    });
+    // Start the layout:
+    s.startNoverlap();
+
+    console.log(g);
 </script>
 </body>
 </html>
