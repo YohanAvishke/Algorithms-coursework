@@ -13,57 +13,43 @@
             height: 100%;
         }
     </style>
+    <script src="src/sigma-bundle.js"></script>
+    <script src="build/plugins/sigma.parsers.json.min.js"></script>
+    <script src="build/plugins/sigma.plugins.dragNodes.min.js"></script>
 </head>
 <body>
 <div id="container"></div>
-<script src="build/sigma.require.js"></script>
-<!--other plugins-->
-<script src="plugins/sigma.parsers.json/sigma.parsers.json.js"></script><!--read json-->
-<script src="plugins/sigma.plugins.dragNodes/sigma.plugins.dragNodes.js"></script><!--drag nodes-->
-<script src="plugins/sigma.plugins.animate/sigma.plugins.animate.js"></script><!--no overlap-->
-<script src="plugins/sigma.layout.noverlap/sigma.layout.noverlap.js"></script><!--no overlap-->
+
 <script>
-    var i,
-        s,
-        N = 10,
-        E = 15,
-        g = {
-            nodes: [],
-            edges: []
-        };
-
-    /* Generate a random graph:
-    for (i = 0; i < N; i++)
-        g.nodes.push({
-            id: 'n' + i,
-            label: 'Node ' + i,
-            x: Math.random(),
-            y: Math.random(),
-            size: 1,
-            color: '#666'
-        });
-
-    for (i = 0; i < E; i++)
-        g.edges.push({
-            id: 'e' + i,
-            source: 'n' + (Math.random() * N | 0),
-            target: 'n' + (Math.random() * N | 0),
-            size: 1,
-            color: '#ccc'
-        });*/
+    //graph
+    var graph = {
+        nodes: [
+            {id: "n0", label: "A node", x: 0, y: 0, size: 3, color: '#008cc2'},
+            {id: "n1", label: "Another node", x: 3, y: 1, size: 2, color: '#008cc2'},
+            {id: "n2", label: "And a last one", x: 1, y: 3, size: 1, color: '#E57821'}
+        ],
+        edges: [
+            {id: "e0", source: "n0", target: "n1", color: '#282c34', type: 'line', size: 0.5},
+            {id: "e1", source: "n1", target: "n2", color: '#282c34', type: 'curve', size: 1},
+            {id: "e2", source: "n2", target: "n0", color: '#FF0000', type: 'line', size: 2}
+        ]
+    };
 
     // Instantiate sigma:
-    s = sigma.parsers.json('data/graph_data.json', {
-        container: 'container',
-
-        renderer: {
-            container: document.getElementById('container'),
-            type: sigma.renderers.canvas
-        },
-        settings: {
-            minArrowSize: 10
+    var s = new sigma(
+        {
+            container: 'container',
+            renderer: {
+                container: document.getElementById('container'),
+                type: sigma.renderers.canvas
+            },
+            settings: {
+                minArrowSize: 10
+            }
         }
-    });
+    );
+    // Load the graph in sigma
+    s.graph.read(graph);
 
     // Initialize the dragNodes plugin:
     var dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
@@ -81,28 +67,26 @@
         console.log(event);
     });
 
-    // Configure the noverlap layout:
-    var noverlapListener = s.configNoverlap({
-        nodeMargin: 0.1,
-        scaleNodes: 1.05,
-        gridSize: 75,
-        easing: 'quadraticInOut', // animation transition function
-        duration: 10000   // animation duration. Long here for the purposes of this example only
-    });
-    // Bind the events:
-    noverlapListener.bind('start stop interpolate', function (e) {
-        console.log(e.type);
-        if (e.type === 'start') {
-            console.time('noverlap');
-        }
-        if (e.type === 'interpolate') {
-            console.timeEnd('noverlap');
-        }
-    });
-    // Start the layout:
-    s.startNoverlap();
+    // // Configure the noverlap layout:
+    // var noverlapListener = s.configNoverlap({
+    //     nodeMargin: 0.1,
+    //     scaleNodes: 1.05,
+    //     gridSize: 75,
+    //     easing: 'quadraticInOut', // animation transition function
+    //     duration: 10000   // animation duration. Long here for the purposes of this example only
+    // });
+    // // Bind the events:
+    // noverlapListener.bind('start stop interpolate', function (e) {
+    //     console.log(e.type);
+    //     if (e.type === 'start') {
+    //         console.time('noverlap');
+    //     }
+    //     if (e.type === 'interpolate') {
+    //         console.timeEnd('noverlap');
+    //     }
+    // });
+    // s.startNoverlap();
 
-    console.log(g);
 </script>
 </body>
 </html>
