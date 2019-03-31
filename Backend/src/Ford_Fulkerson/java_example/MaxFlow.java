@@ -14,8 +14,8 @@ public class MaxFlow {
 
     public static void main(String[] args) {
         MaxFlow maxFlowObj = new MaxFlow();
-        int[][] graph = maxFlowObj.generateGraph();
-        int maxFlow = maxFlowObj.fordFulkerson(graph);
+        int[][] graph = maxFlowObj.generateGraph(); //capacity graph
+        int maxFlow = maxFlowObj.fordFulkerson(graph); //calculate max flow
 
         //display graph
         for (int[] row : graph)
@@ -36,15 +36,14 @@ public class MaxFlow {
                     graph[i][j] = (int) (Math.random() * ((19 - 6) + 1) + 6);
             }
         }
-
         return graph;
     }
 
     private int fordFulkerson(int[][] graph) {
         int u, v;
-        int s = 0;
-        int t = N - 1;
-        int[][] rGraph = new int[N][N];
+        int s = 0;//source
+        int t = N - 1;//sink
+        int[][] rGraph = new int[N][N];//residual graph to store residual capacity(leftover capacity after flow started)
 
         // Residual graph where rGraph[u][v] indicates
         // residual capacity of edge from u to v (if there
@@ -58,19 +57,34 @@ public class MaxFlow {
         int[] parent = new int[N];
         int max_flow = 0; // There is no flow initially
 
-        // Augment the flow while tere is path from source
+        // Augment the flow while there is path from source
         // to sink
         while (bfs(rGraph, s, t, parent)) {
+            // Find minimum residual capacity of the edges
+            // along the path filled by BFS. Or we can say
+            // find the maximum flow through the path found.
             int path_flow = Integer.MAX_VALUE;
             for (v = t; v != s; v = parent[v]) {
                 u = parent[v];
                 path_flow = Math.min(path_flow, rGraph[u][v]);
             }
+
+            // update residual capacities of the edges and
+            // reverse edges along the path
             for (v = t; v != s; v = parent[v]) {
                 u = parent[v];
                 rGraph[u][v] -= path_flow;
                 rGraph[v][u] += path_flow;
             }
+
+            for (int i=0;i<rGraph.length;i++){
+                for (int j=0;j<rGraph[i].length;j++){
+                    System.out.print(rGraph[i][j]+" ");
+                }
+                System.out.println("");
+            }
+            System.out.println("-----------------");
+            // Add path flow to overall flow
             max_flow += path_flow;
         }
 
@@ -78,17 +92,24 @@ public class MaxFlow {
     }
 
     private boolean bfs(int[][] rGraph, int s, int t, int[] parent) {
-        boolean[] visited = new boolean[N];
+        boolean[] visited = new boolean[N];//to check is a node is visited or not
 
+        /* if there is an element in queue that means that elements child nodes have not been searched yet
+         * queue is first in first out ,so the element's children can be searched in the order of the elements
+           added */
         LinkedList<Integer> queue = new LinkedList<>();
-        queue.add(s);
-        visited[s] = true;
-        parent[s] = -1;
+        queue.add(s);// source node is added to queue
+        visited[s] = true;// source node is marked as visited
+        parent[s] = -1;//flow to source is marked as coming from -1
 
+
+//        while loop to check if all the children nodes are searched is used
         while (queue.size() != 0) {
-            int u = queue.poll();
+
+            int u = queue.poll();// first element of queue is stored in 'u' and removed from queue
 
             for (int v = 0; v < N; v++) {
+                //check if each node is visited and if each child node of u has a flow or not
                 if (!visited[v] && rGraph[u][v] > 0) {
                     queue.add(v);
                     parent[v] = u;
@@ -96,6 +117,7 @@ public class MaxFlow {
                 }
             }
         }
+
 
         return (visited[t]);
     }
