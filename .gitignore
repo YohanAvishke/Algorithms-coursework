@@ -24,7 +24,6 @@ hs_err_pid*
 
 .idea/
 Backend/Backend.iml
-Backend/out
 
 #node files
 # Logs
