@@ -2,7 +2,7 @@
   "name": "algorithms-coursework",
   "version": "1.0.0",
   "description": "2K19 individual Algorithm coursework",
-  "main": "src/Ford_Fulkerson/javaScript/index.js",
+  "main": "Backend/src/Ford_Fulkerson/javaScript/index.js",
   "scripts": {
     "test": "node test/index.js",
     "start": "node src/Ford_Fulkerson/javaScript/example/example.js"
