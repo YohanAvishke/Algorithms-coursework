@@ -1,4 +1,4 @@
-package Ford_Fulkerson.java_example;
+package Ford_Fulkerson.JavaExample;
 
 import java.util.Arrays;
 import java.util.LinkedList;
