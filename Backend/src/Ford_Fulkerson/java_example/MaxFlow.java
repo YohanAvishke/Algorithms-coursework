@@ -29,8 +29,8 @@ public class MaxFlow {
     private int[][] generateGraph() {
         int[][] graph = new int[N][N];
 
-        for (int i = 0; i < graph.length; i++) {
-            for (int j = 0; j < graph[i].length; j++) {
+        for (int i = 0; i < graph.length-1; i++) {
+            for (int j = 1; j < graph[i].length; j++) {
                 if (i != j) //skip generating capacities to same node
                     //generate random capacities(5 < cap < 20)
                     graph[i][j] = (int) (Math.random() * ((19 - 6) + 1) + 6);
@@ -77,13 +77,13 @@ public class MaxFlow {
                 rGraph[v][u] += path_flow;
             }
 
-            for (int i=0;i<rGraph.length;i++){
-                for (int j=0;j<rGraph[i].length;j++){
-                    System.out.print(rGraph[i][j]+" ");
-                }
-                System.out.println("");
-            }
-            System.out.println("-----------------");
+//            for (int i=0;i<rGraph.length;i++){
+//                for (int j=0;j<rGraph[i].length;j++){
+//                    System.out.print(rGraph[i][j]+" ");
+//                }
+//                System.out.println("");
+//            }
+//            System.out.println("-----------------");
             // Add path flow to overall flow
             max_flow += path_flow;
         }
