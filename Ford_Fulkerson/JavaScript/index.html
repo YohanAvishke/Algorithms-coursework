@@ -5,84 +5,111 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Max Flow</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/index.css">
 </head>
 <body>
 <div id="container">
-    <style>
-        #graph-container {
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            position: absolute;
-        }
-    </style>
     <div id="graph-container"></div>
+    <div id="control-pane">
+        <h2 class="underline">filters</h2>
+
+        <div>
+            <h3>min degree <span id="min-degree-val">0</span></h3>
+            0 <input id="min-degree" type="range" min="0" max="0" value="0"> <span id="max-degree-value">0</span><br>
+        </div>
+        <div>
+            <h3>node category</h3>
+            <select id="node-category">
+                <option value="" selected>All categories</option>
+            </select>
+        </div>
+        <span class="line"></span>
+        <div>
+            <button id="reset-btn">Reset filters</button>
+            <button id="export-btn">Export</button>
+        </div>
+        <div id="dump" class="hidden"></div>
+    </div>
 </div>
 <!--sigma scripts-->
-<script src="src/sigma.core.js"></script>
-<script src="src/conrad.js"></script>
-<script src="src/utils/sigma.utils.js"></script>
-<script src="src/utils/sigma.polyfills.js"></script>
-<script src="src/sigma.settings.js"></script>
-<script src="src/classes/sigma.classes.dispatcher.js"></script>
-<script src="src/classes/sigma.classes.configurable.js"></script>
-<script src="src/classes/sigma.classes.graph.js"></script>
-<script src="src/classes/sigma.classes.camera.js"></script>
-<script src="src/classes/sigma.classes.quad.js"></script>
-<script src="src/classes/sigma.classes.edgequad.js"></script>
-<script src="src/captors/sigma.captors.mouse.js"></script>
-<script src="src/captors/sigma.captors.touch.js"></script>
-<script src="src/renderers/sigma.renderers.canvas.js"></script>
-<script src="src/renderers/sigma.renderers.webgl.js"></script>
-<script src="src/renderers/sigma.renderers.svg.js"></script>
-<script src="src/renderers/sigma.renderers.def.js"></script>
-<script src="src/renderers/webgl/sigma.webgl.nodes.def.js"></script>
-<script src="src/renderers/webgl/sigma.webgl.nodes.fast.js"></script>
-<script src="src/renderers/webgl/sigma.webgl.edges.def.js"></script>
-<script src="src/renderers/webgl/sigma.webgl.edges.fast.js"></script>
-<script src="src/renderers/webgl/sigma.webgl.edges.arrow.js"></script>
-<script src="src/renderers/canvas/sigma.canvas.labels.def.js"></script>
-<script src="src/renderers/canvas/sigma.canvas.hovers.def.js"></script>
-<script src="src/renderers/canvas/sigma.canvas.nodes.def.js"></script>
-<script src="src/renderers/canvas/sigma.canvas.edges.def.js"></script>
-<script src="src/renderers/canvas/sigma.canvas.edges.curve.js"></script>
-<script src="src/renderers/canvas/sigma.canvas.edges.arrow.js"></script>
-<script src="src/renderers/canvas/sigma.canvas.edges.curvedArrow.js"></script>
-<script src="src/renderers/canvas/sigma.canvas.edgehovers.def.js"></script>
-<script src="src/renderers/canvas/sigma.canvas.edgehovers.curve.js"></script>
-<script src="src/renderers/canvas/sigma.canvas.edgehovers.arrow.js"></script>
-<script src="src/renderers/canvas/sigma.canvas.edgehovers.curvedArrow.js"></script>
-<script src="src/renderers/canvas/sigma.canvas.extremities.def.js"></script>
-<script src="src/renderers/svg/sigma.svg.utils.js"></script>
-<script src="src/renderers/svg/sigma.svg.nodes.def.js"></script>
-<script src="src/renderers/svg/sigma.svg.edges.def.js"></script>
-<script src="src/renderers/svg/sigma.svg.edges.curve.js"></script>
-<script src="src/renderers/svg/sigma.svg.labels.def.js"></script>
-<script src="src/renderers/svg/sigma.svg.hovers.def.js"></script>
-<script src="src/middlewares/sigma.middlewares.rescale.js"></script>
-<script src="src/middlewares/sigma.middlewares.copy.js"></script>
-<script src="src/misc/sigma.misc.animation.js"></script>
-<script src="src/misc/sigma.misc.bindEvents.js"></script>
-<script src="src/misc/sigma.misc.bindDOMEvents.js"></script>
-<script src="src/misc/sigma.misc.drawHovers.js"></script>
+<script src="assets/js/src/sigma.core.js"></script>
+<script src="assets/js/src/conrad.js"></script>
+<script src="assets/js/src/utils/sigma.utils.js"></script>
+<script src="assets/js/src/utils/sigma.polyfills.js"></script>
+<script src="assets/js/src/sigma.settings.js"></script>
+<script src="assets/js/src/classes/sigma.classes.dispatcher.js"></script>
+<script src="assets/js/src/classes/sigma.classes.configurable.js"></script>
+<script src="assets/js/src/classes/sigma.classes.graph.js"></script>
+<script src="assets/js/src/classes/sigma.classes.camera.js"></script>
+<script src="assets/js/src/classes/sigma.classes.quad.js"></script>
+<script src="assets/js/src/classes/sigma.classes.edgequad.js"></script>
+<script src="assets/js/src/captors/sigma.captors.mouse.js"></script>
+<script src="assets/js/src/captors/sigma.captors.touch.js"></script>
+<script src="assets/js/src/renderers/sigma.renderers.canvas.js"></script>
+<script src="assets/js/src/renderers/sigma.renderers.webgl.js"></script>
+<script src="assets/js/src/renderers/sigma.renderers.svg.js"></script>
+<script src="assets/js/src/renderers/sigma.renderers.def.js"></script>
+<script src="assets/js/src/renderers/webgl/sigma.webgl.nodes.def.js"></script>
+<script src="assets/js/src/renderers/webgl/sigma.webgl.nodes.fast.js"></script>
+<script src="assets/js/src/renderers/webgl/sigma.webgl.edges.def.js"></script>
+<script src="assets/js/src/renderers/webgl/sigma.webgl.edges.fast.js"></script>
+<script src="assets/js/src/renderers/webgl/sigma.webgl.edges.arrow.js"></script>
+<script src="assets/js/src/renderers/canvas/sigma.canvas.labels.def.js"></script>
+<script src="assets/js/src/renderers/canvas/sigma.canvas.hovers.def.js"></script>
+<script src="assets/js/src/renderers/canvas/sigma.canvas.nodes.def.js"></script>
+<script src="assets/js/src/renderers/canvas/sigma.canvas.edges.def.js"></script>
+<script src="assets/js/src/renderers/canvas/sigma.canvas.edges.curve.js"></script>
+<script src="assets/js/src/renderers/canvas/sigma.canvas.edges.arrow.js"></script>
+<script src="assets/js/src/renderers/canvas/sigma.canvas.edges.curvedArrow.js"></script>
+<script src="assets/js/src/renderers/canvas/sigma.canvas.edgehovers.def.js"></script>
+<script src="assets/js/src/renderers/canvas/sigma.canvas.edgehovers.curve.js"></script>
+<script src="assets/js/src/renderers/canvas/sigma.canvas.edgehovers.arrow.js"></script>
+<script src="assets/js/src/renderers/canvas/sigma.canvas.edgehovers.curvedArrow.js"></script>
+<script src="assets/js/src/renderers/canvas/sigma.canvas.extremities.def.js"></script>
+<script src="assets/js/src/renderers/svg/sigma.svg.utils.js"></script>
+<script src="assets/js/src/renderers/svg/sigma.svg.nodes.def.js"></script>
+<script src="assets/js/src/renderers/svg/sigma.svg.edges.def.js"></script>
+<script src="assets/js/src/renderers/svg/sigma.svg.edges.curve.js"></script>
+<script src="assets/js/src/renderers/svg/sigma.svg.labels.def.js"></script>
+<script src="assets/js/src/renderers/svg/sigma.svg.hovers.def.js"></script>
+<script src="assets/js/src/middlewares/sigma.middlewares.rescale.js"></script>
+<script src="assets/js/src/middlewares/sigma.middlewares.copy.js"></script>
+<script src="assets/js/src/misc/sigma.misc.animation.js"></script>
+<script src="assets/js/src/misc/sigma.misc.bindEvents.js"></script>
+<script src="assets/js/src/misc/sigma.misc.bindDOMEvents.js"></script>
+<script src="assets/js/src/misc/sigma.misc.drawHovers.js"></script>
+<!--plugins-->
+<script src="assets/js/plugins/sigma.renderers.edgeLabels/settings.js"></script>
+<script src="assets/js/plugins/sigma.renderers.edgeLabels/sigma.canvas.edges.labels.def.js"></script>
+<script src="assets/js/plugins/sigma.layout.forceAtlas2/supervisor.js"></script>
+<script src="assets/js/plugins/sigma.layout.forceAtlas2/worker.js"></script>
 <!--end-->
-<script type="text/javascript" src="fordfulkerson.js"></script>
-<script type="text/javascript" src="graph.js"></script>
+<script type="text/javascript" src="assets/js/fordfulkerson.js"></script>
 <script>
-    var graph = [
-        [0, 16, 13, 0, 0, 0],
-        [0, 0, 10, 12, 0, 0],
-        [0, 4, 0, 0, 14, 0],
-        [0, 0, 9, 0, 0, 20],
-        [0, 0, 0, 7, 0, 4],
-        [0, 0, 0, 0, 0, 0]
-    ];
+    var N = ((Math.random() * 7) + 6 | 0),
+        flowgraph = [],
+        i,
+        j;
+
+    for (i = 0; i < N; i++) {
+        var temp = [];
+        for (j = 0; j < N; j++) {
+            var value = 0;
+            if (j > i && i !== N - 1 && j !== 0) {
+                value = ((Math.random() * 14) + 6 | 0);
+                temp.push(value)
+            }else temp.push(value)
+        }
+        flowgraph.push(temp)
+    }
+
+    console.log(flowgraph);
 
     window.onload = function () {
-        fordFulkerson(graph, 0, 5);
+        fordFulkerson(flowgraph, 0, 5);
     }
 </script>
+<script type="text/javascript" src="assets/js/graph.js"></script>
 </body>
 </html>
