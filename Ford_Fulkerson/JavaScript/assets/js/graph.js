@@ -41,7 +41,7 @@ s = new sigma({
         type: 'canvas'
     },
     settings: {
-        minArrowHeadSize: 20,
+        minArrowSize: 10,
         minEdgeSize:1,
         maxEdgeSize:2,
         edgeLabelSize: 'fixed',
