@@ -7,31 +7,38 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Max Flow</title>
     <link rel="stylesheet" type="text/css" href="assets/css/index.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
 <div id="container">
     <div id="graph-container"></div>
     <div id="control-pane">
-        <h2 class="underline">filters</h2>
-
-        <div>
-            <h3>min degree <span id="min-degree-val">0</span></h3>
-            0 <input id="min-degree" type="range" min="0" max="0" value="0"> <span id="max-degree-value">0</span><br>
-        </div>
-        <div>
-            <h3>node category</h3>
-            <select id="node-category">
-                <option value="" selected>All categories</option>
-            </select>
-        </div>
+        <h4 class="underline">Control Panel</h4>
         <span class="line"></span>
         <div>
-            <button id="reset-btn">Reset filters</button>
+            <button id="btn-max">Calculate Max Flow</button>
             <button id="export-btn">Export</button>
         </div>
         <div id="dump" class="hidden"></div>
+        <div id="detail-container" class="alert alert-info" role="alert">
+            <h5 class="alert-heading">Graph Details</h5>
+            <p></p>
+        </div>
     </div>
+
 </div>
+</div>
+<!--bootstrap-->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 <!--sigma scripts-->
 <script src="assets/js/src/sigma.core.js"></script>
 <script src="assets/js/src/conrad.js"></script>
@@ -98,17 +105,25 @@
             var value = 0;
             if (j > i && i !== N - 1 && j !== 0) {
                 value = ((Math.random() * 14) + 6 | 0);
-                temp.push(value)
-            }else temp.push(value)
+                temp.push(value);
+            } else temp.push(value);
         }
-        flowgraph.push(temp)
+        flowgraph.push(temp);
     }
 
     console.log(flowgraph);
 
-    window.onload = function () {
-        fordFulkerson(flowgraph, 0, 5);
+    function updategraph(u, v) {
+        selectpath(u, v, s);
     }
+
+    window.addEventListener("load", function () {
+        document.getElementById('btn-max').addEventListener('click', function () {
+            fordFulkerson(flowgraph, 0, N - 1);
+        });
+    });
+
+
 </script>
 <script type="text/javascript" src="assets/js/graph.js"></script>
 </body>

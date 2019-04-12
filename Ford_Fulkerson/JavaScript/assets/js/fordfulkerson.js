@@ -46,6 +46,7 @@ function fordFulkerson(graph, s, t) {
             u = parent[v];
             rGraph[u][v] -= pathFlow;
             rGraph[v][u] += pathFlow;
+            updategraph(u,v)
         }
 
         maxFlow += pathFlow;

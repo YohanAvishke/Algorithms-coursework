@@ -14,6 +14,7 @@
             position: absolute;
         }
     </style>
+    <button id="next" onClick="console.log('click')">Next</button>
     <div id="graph-container"></div>
 </div>
 <script>
@@ -32,6 +33,70 @@
      * before the instanciation.
      */
 
+    var _ = {
+        $: function (id) {
+            return document.getElementById(id);
+        },
+
+        all: function (selectors) {
+            return document.querySelectorAll(selectors);
+        },
+
+        removeClass: function (selectors, cssClass) {
+            var nodes = document.querySelectorAll(selectors);
+            var l = nodes.length;
+            for (i = 0; i < l; i++) {
+                var el = nodes[i];
+                // Bootstrap compatibility
+                el.className = el.className.replace(cssClass, '');
+            }
+        },
+
+        addClass: function (selectors, cssClass) {
+            var nodes = document.querySelectorAll(selectors);
+            var l = nodes.length;
+            for (i = 0; i < l; i++) {
+                var el = nodes[i];
+                // Bootstrap compatibility
+                if (-1 == el.className.indexOf(cssClass)) {
+                    el.className += ' ' + cssClass;
+                }
+            }
+        },
+
+        show: function (selectors) {
+            this.removeClass(selectors, 'hidden');
+        },
+
+        hide: function (selectors) {
+            this.addClass(selectors, 'hidden');
+        },
+
+        toggle: function (selectors, cssClass) {
+            var cssClass = cssClass || "hidden";
+            var nodes = document.querySelectorAll(selectors);
+            var l = nodes.length;
+            for (i = 0; i < l; i++) {
+                var el = nodes[i];
+                //el.style.display = (el.style.display != 'none' ? 'none' : '' );
+                // Bootstrap compatibility
+                if (-1 !== el.className.indexOf(cssClass)) {
+                    el.className = el.className.replace(cssClass, '');
+                } else {
+                    el.className += ' ' + cssClass;
+                }
+            }
+        }
+    };
+
+    function updatePane (graph) {
+
+        // reset button
+        _.$('next').addEventListener("click", function(e) {
+            graph.refresh()
+        });
+
+    }
 
     var s = new sigma.parsers.json('data/arctic.json', {
         container: 'graph-container',
@@ -43,20 +108,30 @@
         settings: {
             minArrowSize: 20
         }
+    }, function (s) {
+        s.refresh();
+
+        s.graph.edges().forEach(function (e) {
+            e.color = '#' + (
+                Math.floor(Math.random() * 16777215).toString(16) + '000000'
+            ).substr(0, 6)
+        });
     });
+
 
     var dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
 
-    dragListener.bind('startdrag', function(event) {
+    dragListener.bind('startdrag', function (event) {
         console.log(event);
     });
-    dragListener.bind('drag', function(event) {
+    dragListener.bind('drag', function (event) {
         console.log(event);
     });
-    dragListener.bind('drop', function(event) {
+    dragListener.bind('drop', function (event) {
         console.log(event);
     });
-    dragListener.bind('dragend', function(event) {
+    dragListener.bind('dragend', function (event) {
         console.log(event);
     });
+    s.refresh();
 </script>
