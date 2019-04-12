@@ -37,7 +37,6 @@ for (i = 1; i < N - 1; i++) {
 g.nodes.push(sink);
 
 for (i = 0; i < N; i++) {
-    console.log(flowgraph[i]);
     for (j = 0; j < N; j++) {
         if (flowgraph[i][j] > 0) {
             g.edges.push({
@@ -69,13 +68,20 @@ s = new sigma({
     }
 });
 
-function selectpath(u, v, s) {
-    console.log(u + "-->" + v);
-    s.graph.edges().forEach(function (n) {
-        if (n.id === 'e' + u + '' + v) {
-            n.color = '#0D0D0D'
-        }
-    });
+function updatepath(augpath, s) {
+    let flow = augpath[augpath.length - 1];
+    let residualcapa;
+    for (i = 0; i < augpath.length - 1; i += 2) {
+        s.graph.edges().forEach(function (e) {
+            if (e.id === 'e' + augpath[i] + '' + augpath[i + 1]) {
+                e.color = '#0D0D0D';
+                residualcapa = e.label - flow;
+                if (residualcapa === 0) e.label = '0';
+                else e.label = '' + residualcapa;
+            }
+        });
+    }
+
     s.refresh();
 }
 

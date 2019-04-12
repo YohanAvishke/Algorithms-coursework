@@ -15,7 +15,7 @@ function fordFulkerson(graph, s, t) {
     // is an edge. If rGraph[u][v] is 0, then there is
     // not)
     for (var u = 0; u < graph.length; u++) {
-        var temp = [];// used to add graph row by row to rGraph
+        let temp = [];// used to add graph row by row to rGraph
         if (graph[u].length !== graph.length) {
             throw new Error("Graph error :: invalid graph. graph needs to be NxN");
         }
@@ -35,23 +35,25 @@ function fordFulkerson(graph, s, t) {
         // along the path filled by BFS. Or we can say
         // find the maximum flow through the path found.
         var pathFlow = Number.MAX_VALUE;
+        let temp = [];//to store in augPaths
         for (var v = t; v != s; v = parent[v]) {
             u = parent[v];
             pathFlow = Math.min(pathFlow, rGraph[u][v]);
         }
-
         // update residual capacities of the edges and
         // reverse edges along the path
         for (v = t; v != s; v = parent[v]) {
             u = parent[v];
             rGraph[u][v] -= pathFlow;
             rGraph[v][u] += pathFlow;
-            updategraph(u,v)
+            // finalgraph(u, v);//to get final residual graph
+            temp.push(u, v);
         }
-
+        temp.push(pathFlow);
+        augPaths.push(temp);//store aug path with path flow
         maxFlow += pathFlow;
     }
-    console.log("The maximum possible flow is "+maxFlow);
+    console.log("The maximum possible flow is " + maxFlow);
 }
 
 function bfs(rGraph, s, t, parent) {
