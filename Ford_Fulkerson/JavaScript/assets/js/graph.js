@@ -76,6 +76,7 @@ function selectpath(u, v, s) {
             n.color = '#0D0D0D'
         }
     });
+    s.refresh();
 }
 
 
