@@ -19,10 +19,12 @@
         <div>
             <button id="btn-steps">Step by Step</button>
         </div>
+        <span class="line"></span>
+        <div id="container-steps"></div>
         <div id="dump" class="hidden"></div>
         <div id="detail-container" class="alert alert-info" role="alert">
             <h5 class="alert-heading">Graph Details</h5>
-            <p></p>
+            <span id="text-current-flow-container">Current Flow : </span><span id="text-current-flow-value">0</span>
         </div>
     </div>
 
@@ -90,12 +92,15 @@
 <script src="assets/js/plugins/sigma.renderers.edgeLabels/sigma.canvas.edges.labels.def.js"></script>
 <script src="assets/js/plugins/sigma.layout.forceAtlas2/supervisor.js"></script>
 <script src="assets/js/plugins/sigma.layout.forceAtlas2/worker.js"></script>
+<script src="assets/js/plugins/sigma.plugins.dragNodes/sigma.plugins.dragNodes.js"></script>
 <!--end-->
 <script type="text/javascript" src="assets/js/fordfulkerson.js"></script>
 <script>
     var N = ((Math.random() * 7) + 6 | 0),
         flowgraph = [],//start graph
         augPaths = [],//to store augmented paths
+        maxflow = 0,
+        currentflow = 0,
         step = 0,
         i,//from node
         j;//to node
@@ -122,18 +127,36 @@
 
     function nextgraph(step) {
         updatepath(augPaths[step], s);
+        // generateSteps(step);
         console.log(augPaths[step]);
     }
 
+    // function generateSteps(step) {
+    //     let stepButton = document.createElement('button'),
+    //         container = document.getElementById('control-pane').getElementsByTagName('div')[1];
+    //     stepButton.id = step;
+    //     stepButton.appendChild(document.createTextNode("Step " + (step + 1)));
+    //     container.appendChild(stepButton);
+    //
+    //     document.getElementById(step).addEventListener('click',function () {
+    //         nextgraph(step);
+    //     })
+    // }
+
     window.addEventListener("load", function () {
         fordFulkerson(flowgraph, 0, N - 1);
-
+        console.log(augPaths);
         document.getElementById('btn-steps').addEventListener('click', function () {
             if (step < augPaths.length) {
                 nextgraph(step);
+                document.getElementById('text-current-flow-value').innerHTML =
+                    Number(document.getElementById('text-current-flow-value').innerText) + augPaths[step][augPaths[step].length - 1];
+                // generateSteps(step);
                 step++;
-            } else {
-                console.log("Sink reached");
+                if (step === augPaths.length) {
+                    document.getElementById('text-current-flow-container').innerHTML = 'Max Flow : ';
+                    document.getElementById('btn-steps').disabled = true;
+                }
             }
         });
     });

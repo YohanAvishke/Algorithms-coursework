@@ -26,7 +26,6 @@ function fordFulkerson(graph, s, t) {
     }
 
     var parent = [];// This array is filled by BFS and to store path
-    var maxFlow = 0;// There is no flow initially
     // Augment the flow while there is path from source
     // to sink
     while (bfs(rGraph, s, t, parent)) {
@@ -51,9 +50,8 @@ function fordFulkerson(graph, s, t) {
         }
         temp.push(pathFlow);
         augPaths.push(temp);//store aug path with path flow
-        maxFlow += pathFlow;
+        maxflow += pathFlow;
     }
-    console.log("The maximum possible flow is " + maxFlow);
 }
 
 function bfs(rGraph, s, t, parent) {

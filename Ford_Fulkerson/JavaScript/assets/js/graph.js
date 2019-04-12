@@ -31,7 +31,7 @@ for (i = 1; i < N - 1; i++) {
         x: Math.random(),
         y: Math.random(),
         size: 3,
-        color: '#595959'
+        color: '#3b81b3'
     });
 }
 g.nodes.push(sink);
@@ -44,7 +44,7 @@ for (i = 0; i < N; i++) {
                 source: 'n' + i,
                 target: 'n' + j,
                 label: '' + flowgraph[i][j],
-                color: '#D9D9D9',
+                color: '#d6dbd9',
                 type: 'arrow',
                 size: 2
             });
@@ -61,8 +61,8 @@ s = new sigma({
     },
     settings: {
         minArrowSize: 8,
-        minEdgeSize: 1,
-        maxEdgeSize: 2,
+        minEdgeSize: 2,
+        maxEdgeSize: 3,
         edgeLabelSize: 'fixed',
         defaultEdgeLabelSize: 13
     }
@@ -74,7 +74,7 @@ function updatepath(augpath, s) {
     for (i = 0; i < augpath.length - 1; i += 2) {
         s.graph.edges().forEach(function (e) {
             if (e.id === 'e' + augpath[i] + '' + augpath[i + 1]) {
-                e.color = '#0D0D0D';
+                e.color = '#42A5EE';
                 residualcapa = e.label - flow;
                 if (residualcapa === 0) e.label = '0';
                 else e.label = '' + residualcapa;
@@ -85,12 +85,21 @@ function updatepath(augpath, s) {
     s.refresh();
 }
 
-
 // Start the layout:
 s.refresh();
 s.startForceAtlas2();
-if (N <= 9) {
-    window.setTimeout(function () {
-        s.killForceAtlas2()
-    }, 5000);
-}
+window.setTimeout(function () {
+    s.killForceAtlas2();
+    // Initialize the dragNodes plugin:
+    var dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
+
+    dragListener.bind('startdrag', function (event) {
+    });
+    dragListener.bind('drag', function (event) {
+    });
+    dragListener.bind('drop', function (event) {
+    });
+    dragListener.bind('dragend', function (event) {
+    });
+}, 8000);
+
