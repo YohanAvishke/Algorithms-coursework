@@ -2,7 +2,6 @@ var N = ((Math.random() * 7) + 6 | 0),
     flowgraph = [],//initial graph
     augPaths = [],//to store augmented paths
     maxflow = 0,
-    currentflow = 0,
     currStep = 0,//to store current
     i, j;
 
@@ -44,6 +43,16 @@ function generateSteps() {
     });
 }
 
+function displayFlow(flow, step) {
+    document.getElementById('text-current-flow-value').innerHTML =
+        Number(document.getElementById('text-current-flow-value').innerText) + flow;
+    if (Number(step) === augPaths.length) {
+        document.getElementById('text-current-flow-container').innerHTML = 'Max Flow : ';
+    } else {
+        document.getElementById('text-current-flow-container').innerHTML = 'Current Flow : ';
+    }
+}
+
 //change current step
 function changeStep(step) {
     if (step !== currStep) {
@@ -52,12 +61,14 @@ function changeStep(step) {
         if (step > currStep) {
             while (currStep < step) {
                 addFlow(augPaths[currStep], s);
+                displayFlow(augPaths[currStep][augPaths[currStep].length - 1], step);
                 currStep++;
             }
         } else {
             while (currStep > step) {
                 currStep--;
                 removeFlow(augPaths[currStep], s);
+                displayFlow(-augPaths[currStep][augPaths[currStep].length - 1], step);
             }
         }
         currStep = step;
@@ -69,20 +80,5 @@ window.addEventListener("load", function () {
     fordFulkerson(flowgraph, 0, N - 1);//calculate max flow
     renderGraph();//draw the random graph
     generateSteps();
-
-    // document.getElementById('btn-steps').addEventListener('click', function () {
-    //     if (step < augPaths.length) {
-    //         changeStep(step);
-    //         document.getElementById('text-current-flow-value').innerHTML =
-    //             Number(document.getElementById('text-current-flow-value').innerText) + augPaths[step][augPaths[step].length - 1];
-    //         // generateSteps(step);
-    //         step++;
-    //         if (step === augPaths.length) {
-    //             document.getElementById('text-current-flow-container').innerHTML = 'Max Flow : ';
-    //             document.getElementById('btn-steps').disabled = true;
-    //         }
-    //     }
-    // });
-
 });
 
