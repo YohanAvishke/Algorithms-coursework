@@ -3,11 +3,9 @@ var N = ((Math.random() * 7) + 6 | 0),
     augPaths = [],//to store augmented paths
     maxflow = 0,
     currentflow = 0,
-    step = 0,//to store which is the current
-    i,//from node
-    j;//to node
+    currStep = 0,//to store current
+    i, j;
 
-//generate a random graph
 function generateGraph() {
     for (i = 0; i < N; i++) {
         let temp = [];
@@ -28,45 +26,57 @@ function generateGraph() {
     }
 }
 
-//change current step
-function changeStep(step) {
-    addFlow(augPaths[step], s);
-    // generateSteps(step);
-    console.log(augPaths[step]);
+function generateSteps() {
+    let step = 1;
+
+    augPaths.forEach(function () {
+        let stepButton = document.createElement('button'),
+            container = document.getElementById('container-steps');
+        stepButton.id = '' + step;
+        stepButton.className = "btn btn-light";
+        stepButton.style.margin = "5px";
+        stepButton.appendChild(document.createTextNode("Step " + step));
+        container.appendChild(stepButton);
+        document.getElementById('' + step).addEventListener('click', function () {
+            changeStep(this.id);
+        });
+        step++;
+    });
 }
 
-// function generateSteps(step) {
-//     let stepButton = document.createElement('button'),
-//         container = document.getElementById('control-pane').getElementsByTagName('div')[1];
-//     stepButton.id = step;
-//     stepButton.appendChild(document.createTextNode("Step " + (step + 1)));
-//     container.appendChild(stepButton);
-//
-//     document.getElementById(step).addEventListener('click',function () {
-//         nextgraph(step);
-//     })
-// }
-
-generateGraph();
+//change current step
+function changeStep(step) {
+    if (step !== currStep) {
+        if (step > currStep) {
+            while (currStep < step) {
+                addFlow(augPaths[currStep], s);
+                currStep++;
+            }
+            currStep = step;
+        }
+    }
+}
 
 window.addEventListener("load", function () {
+    generateGraph();//generate a random graph
     fordFulkerson(flowgraph, 0, N - 1);//calculate max flow
-    renderGraph();//draw graph
+    renderGraph();//draw the random graph
+    generateSteps();
     console.log(augPaths);
 
-    document.getElementById('btn-steps').addEventListener('click', function () {
-        if (step < augPaths.length) {
-            changeStep(step);
-            document.getElementById('text-current-flow-value').innerHTML =
-                Number(document.getElementById('text-current-flow-value').innerText) + augPaths[step][augPaths[step].length - 1];
-            // generateSteps(step);
-            step++;
-            if (step === augPaths.length) {
-                document.getElementById('text-current-flow-container').innerHTML = 'Max Flow : ';
-                document.getElementById('btn-steps').disabled = true;
-            }
-        }
-    });
+    // document.getElementById('btn-steps').addEventListener('click', function () {
+    //     if (step < augPaths.length) {
+    //         changeStep(step);
+    //         document.getElementById('text-current-flow-value').innerHTML =
+    //             Number(document.getElementById('text-current-flow-value').innerText) + augPaths[step][augPaths[step].length - 1];
+    //         // generateSteps(step);
+    //         step++;
+    //         if (step === augPaths.length) {
+    //             document.getElementById('text-current-flow-container').innerHTML = 'Max Flow : ';
+    //             document.getElementById('btn-steps').disabled = true;
+    //         }
+    //     }
+    // });
 
 });
 

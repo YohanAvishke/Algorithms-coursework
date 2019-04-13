@@ -13,22 +13,17 @@
 <body>
 <div id="container">
     <div id="graph-container"></div>
-    <div id="control-pane">
-        <h4 class="underline">Control Panel</h4>
-        <span class="line"></span>
-        <div>
-            <button id="btn-steps">Step by Step</button>
-        </div>
-        <span class="line"></span>
+    <div id="control-pane" class="alert">
+        <h4 class="alert-heading">Control Panel</h4>
+        <hr>
+        <h5 class="alert-heading">Steps</h5>
         <div id="container-steps"></div>
-        <div id="dump" class="hidden"></div>
+        <hr>
         <div id="detail-container" class="alert alert-info" role="alert">
             <h5 class="alert-heading">Graph Details</h5>
             <span id="text-current-flow-container">Current Flow : </span><span id="text-current-flow-value">0</span>
         </div>
     </div>
-
-</div>
 </div>
 <!--bootstrap-->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
