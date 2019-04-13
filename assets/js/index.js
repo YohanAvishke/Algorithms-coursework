@@ -53,6 +53,12 @@ function changeStep(step) {
                 currStep++;
             }
             currStep = step;
+        }else {
+            while (currStep > step) {
+                currStep--;
+                removeFlow(augPaths[currStep], s);
+            }
+            currStep = step;
         }
     }
 }

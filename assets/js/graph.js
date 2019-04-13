@@ -87,17 +87,17 @@ function renderGraph() {
         });
         dragListener.bind('dragend', function (event) {
         });
-    }, 8000);
+    }, 5000);
 }
 
 function addFlow(augpath, s) {
-    let flow = augpath[augpath.length - 1];
-    let residualcapa;
+    let flow = augpath[augpath.length - 1],
+        residualcapa;
     for (i = 0; i < augpath.length - 1; i += 2) {
         s.graph.edges().forEach(function (e) {
             if (e.id === 'e' + augpath[i] + '' + augpath[i + 1]) {
                 e.color = '#42A5EE';
-                residualcapa = e.label - flow;
+                residualcapa = Number(e.label) - flow;
                 if (residualcapa === 0) e.label = '0';
                 else e.label = '' + residualcapa;
             }
@@ -107,7 +107,20 @@ function addFlow(augpath, s) {
     s.refresh();
 }
 
-function removeFlow() {
+function removeFlow(augpath, s) {
+    let flow = augpath[augpath.length - 1],
+        residualcapa;
+    for (i = 0; i < augpath.length - 1; i += 2) {
+        s.graph.edges().forEach(function (e) {
+            if (e.id === 'e' + augpath[i] + '' + augpath[i + 1]) {
+                e.color = '#d6dbd9';
+                residualcapa = Number(e.label) + flow;
+                if (residualcapa === 0) e.label = '0';
+                else e.label = '' + residualcapa;
+            }
+        });
+    }
 
+    s.refresh();
 }
 
