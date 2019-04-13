@@ -1,5 +1,5 @@
 var N = ((Math.random() * 7) + 6 | 0),
-    flowgraph = [],//start graph
+    flowgraph = [],//initial graph
     augPaths = [],//to store augmented paths
     maxflow = 0,
     currentflow = 0,
@@ -7,28 +7,30 @@ var N = ((Math.random() * 7) + 6 | 0),
     i,//from node
     j;//to node
 
-for (i = 0; i < N; i++) {
-    let temp = [];
-    for (j = 0; j < N; j++) {
-        let value = 0;
-        /*
-        * No two edges between same node (j>i :: if (j to i >0) then (i to j <0))
-        * No recursive flow to same node (j>i :: (i to i=== 0))
-        * No flow towards sink(i != N-1 :: (sink to other_nodes === 0))
-        * No flow from source(j !== 0 :: (other_nodes to source === 0)) */
-        if (j > i && i !== N - 1 && j !== 0) {
-            //values can be from 6 to 19
-            value = ((Math.random() * 14) + 6 | 0);
-            temp.push(value);
-        } else temp.push(value);
+//generate a random graph
+function generateGraph() {
+    for (i = 0; i < N; i++) {
+        let temp = [];
+        for (j = 0; j < N; j++) {
+            let value = 0;
+            /*
+            * No two edges between same node (j>i :: if (j to i >0) then (i to j <0))
+            * No recursive flow to same node (j>i :: (i to i=== 0))
+            * No flow towards sink(i != N-1 :: (sink to other_nodes === 0))
+            * No flow from source(j !== 0 :: (other_nodes to source === 0)) */
+            if (j > i && i !== N - 1 && j !== 0) {
+                //values can be from 6 to 19
+                value = ((Math.random() * 14) + 6 | 0);
+                temp.push(value);
+            } else temp.push(value);
+        }
+        flowgraph.push(temp);//add node to other_nodes flow
     }
-    flowgraph.push(temp);//add node to other_nodes flow
 }
 
-console.log(flowgraph);
-
-function nextgraph(step) {
-    updatepath(augPaths[step], s);
+//change current step
+function changeStep(step) {
+    addFlow(augPaths[step], s);
     // generateSteps(step);
     console.log(augPaths[step]);
 }
@@ -45,12 +47,16 @@ function nextgraph(step) {
 //     })
 // }
 
+generateGraph();
+
 window.addEventListener("load", function () {
-    fordFulkerson(flowgraph, 0, N - 1);
+    fordFulkerson(flowgraph, 0, N - 1);//calculate max flow
+    renderGraph();//draw graph
     console.log(augPaths);
+
     document.getElementById('btn-steps').addEventListener('click', function () {
         if (step < augPaths.length) {
-            nextgraph(step);
+            changeStep(step);
             document.getElementById('text-current-flow-value').innerHTML =
                 Number(document.getElementById('text-current-flow-value').innerText) + augPaths[step][augPaths[step].length - 1];
             // generateSteps(step);
@@ -61,4 +67,6 @@ window.addEventListener("load", function () {
             }
         }
     });
+
 });
+
