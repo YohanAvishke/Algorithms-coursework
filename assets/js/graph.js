@@ -87,7 +87,7 @@ function renderGraph() {
         });
         dragListener.bind('dragend', function (event) {
         });
-    }, 5000);
+    }, 8000);
 }
 
 function addFlow(augpath, s) {
@@ -110,7 +110,6 @@ function addFlow(augpath, s) {
 function removeFlow(augpath, s) {
     let flow = augpath[augpath.length - 1],
         residualcapa;
-    console.log(augpath);
     for (i = 0; i < augpath.length - 1; i += 2) {
         s.graph.edges().forEach(function (e) {
             let startNode = augpath[i],

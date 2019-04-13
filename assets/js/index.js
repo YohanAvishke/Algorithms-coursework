@@ -29,7 +29,6 @@ function generateGraph() {
 
 function generateSteps() {
     let step = 1;
-
     augPaths.forEach(function () {
         let stepButton = document.createElement('button'),
             container = document.getElementById('container-steps');
@@ -48,19 +47,20 @@ function generateSteps() {
 //change current step
 function changeStep(step) {
     if (step !== currStep) {
+        currStep = Number(currStep);
+        step = Number(step);
         if (step > currStep) {
             while (currStep < step) {
                 addFlow(augPaths[currStep], s);
                 currStep++;
             }
-            currStep = step;
-        }else {
+        } else {
             while (currStep > step) {
                 currStep--;
                 removeFlow(augPaths[currStep], s);
             }
-            currStep = step;
         }
+        currStep = step;
     }
 }
 
