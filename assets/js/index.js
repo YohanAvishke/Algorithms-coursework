@@ -24,6 +24,7 @@ function generateGraph() {
         }
         flowgraph.push(temp);//add node to other_nodes flow
     }
+    console.log(flowgraph);
 }
 
 function generateSteps() {
@@ -68,7 +69,6 @@ window.addEventListener("load", function () {
     fordFulkerson(flowgraph, 0, N - 1);//calculate max flow
     renderGraph();//draw the random graph
     generateSteps();
-    console.log(augPaths);
 
     // document.getElementById('btn-steps').addEventListener('click', function () {
     //     if (step < augPaths.length) {

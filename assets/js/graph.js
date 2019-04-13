@@ -110,13 +110,25 @@ function addFlow(augpath, s) {
 function removeFlow(augpath, s) {
     let flow = augpath[augpath.length - 1],
         residualcapa;
+    console.log(augpath);
     for (i = 0; i < augpath.length - 1; i += 2) {
         s.graph.edges().forEach(function (e) {
-            if (e.id === 'e' + augpath[i] + '' + augpath[i + 1]) {
-                e.color = '#d6dbd9';
+            let startNode = augpath[i],
+                endNode = augpath[i+1];
+
+            if (e.id === 'e' + startNode + '' + endNode) {
                 residualcapa = Number(e.label) + flow;
-                if (residualcapa === 0) e.label = '0';
-                else e.label = '' + residualcapa;
+                if (residualcapa === 0) {
+                    e.label = '0';
+                    e.color = '#42A5EE';
+                }
+                else {
+                    e.label = '' + residualcapa;
+                    // console.log("graph: "+ flowgraph[startNode][endNode] + "  label:" + e.label);
+                    if (flowgraph[startNode][endNode] === Number(e.label)) {
+                        e.color = '#d6dbd9';
+                    } else e.color = '#42A5EE';
+                }
             }
         });
     }
