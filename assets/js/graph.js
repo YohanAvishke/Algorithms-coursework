@@ -1,12 +1,14 @@
 var s,//to store sigma obj
-    E = N * (N - 1),//number of possible maximum edges
-    //to store graph
+    E,//number of possible maximum edges
+    g;//to store graph
+
+function renderGraph() {
+    E = N * (N - 1);
     g = {
         nodes: [],
         edges: []
     };
 
-function renderGraph() {
     var source = {
         id: 'n' + 0,
         label: 'Source',
@@ -66,7 +68,7 @@ function renderGraph() {
             minEdgeSize: 2,
             maxEdgeSize: 3,
             edgeLabelSize: 'fixed',
-            defaultEdgeLabelSize: 13
+            defaultEdgeLabelSize: 14,
         }
     });
 
@@ -87,7 +89,14 @@ function renderGraph() {
         });
         dragListener.bind('dragend', function (event) {
         });
-    }, 8000);
+    }, 10000);
+}
+
+function clearGraph() {
+    s.graph.clear();
+    s.refresh();
+    s.killForceAtlas2();
+    s.graph.kill();
 }
 
 function addFlow(augpath, s) {
@@ -113,7 +122,7 @@ function removeFlow(augpath, s) {
     for (i = 0; i < augpath.length - 1; i += 2) {
         s.graph.edges().forEach(function (e) {
             let startNode = augpath[i],
-                endNode = augpath[i+1];
+                endNode = augpath[i + 1];
 
             if (e.id === 'e' + startNode + '' + endNode) {
                 residualcapa = Number(e.label) + flow;

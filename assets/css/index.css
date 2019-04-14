@@ -4,12 +4,23 @@
     left: 10px;
     right: 20%;
     position: absolute;
+    width: 1048px;
 }
+
 #control-pane {
     top: 10px;
-    /*bottom: 10px;*/
     right: 0px;
     position: absolute;
-    width: 300px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    width: 290px;
+    padding: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    max-height: 677px;
+    overflow-y: auto;
+}
+
+#btn-collapse {
+    position: absolute;
+    right: 14px;
+    top: 19px;
+    z-index: 1;
 }
