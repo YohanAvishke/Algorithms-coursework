@@ -32,41 +32,6 @@
             <h5 class="alert-heading">Generate Network</h5>
             <div id="container-network" class="container">
                 <button id="btn-auto" class="btn btn-light">Refresh</button>
-                <button id="btn-manual" type="button" class="btn btn-light" data-toggle="modal"
-                        data-target="#modal_input">Input Data
-                </button>
-                <div class="modal fade" id="modal_input" role="dialog">
-                    <div class="modal-dialog modal-xl modal-dialog-scrollable">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title">Network Data Form</h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-
-                            <div class="modal-body">
-                                <p>Please Fill the Form</p>
-                                <form class="was-validated" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="get">
-                                    <div class="form-group">
-                                        <label for="input-nodes" data-toggle="tooltip" data-placement="top"
-                                               title="Number of Nodes">Nodes:</label>
-                                        <input type="number" class="form-control" id="input-nodes" name="nodes" min="6"
-                                               max="12" data-toggle="tooltip" data-placement="top"
-                                               title="Number of Nodes" placeholder="Number of Nodes" required>
-                                        <div class="valid-feedback">Valid.</div>
-                                        <div class="invalid-feedback">Input a number from 6 to 12.</div>
-                                    </div>
-                                    <div id="edge-pane" class="form-group"></div>
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                </form>
-                            </div>
-
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
             </div>
 
         </div>

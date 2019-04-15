@@ -1,6 +1,8 @@
 'use strict'
 
 function fordFulkerson(graph, s, t) {
+    console.time();//for performance analysis
+
     var rGraph = [];// residual graph to store residual capacity(leftover capacity after flow started)
 
     if (s < 0 || t < 0 || s > graph.length - 1 || t > graph.length - 1) {
@@ -52,6 +54,8 @@ function fordFulkerson(graph, s, t) {
         augPaths.push(temp);//store aug path with path flow
         maxflow += pathFlow;
     }
+
+    console.timeEnd();//for performance analysis
 }
 
 function bfs(rGraph, s, t, parent) {

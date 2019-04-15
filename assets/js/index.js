@@ -5,30 +5,6 @@ var N,
     currStep,//to store current
     i, j;
 
-function tableCreate() {
-    let pane = document.getElementById('edge-pane'),
-        tbl = document.createElement('table');
-    tbl.style.width = '100px';
-    tbl.style.border = '1px solid black';
-
-    for (i = 0; i < 3; i++) {
-        let tr = tbl.insertRow();
-        for (j = 0; j < 2; j++) {
-            if (i === 2 && j === 1) {
-                break;
-            } else {
-                let td = tr.insertCell();
-                td.appendChild(document.createTextNode('Cell'));
-                td.style.border = '1px solid black';
-                if (i === 1 && j === 1) {
-                    td.setAttribute('rowSpan', '2');
-                }
-            }
-        }
-    }
-    pane.appendChild(tbl);
-}
-
 function generateGraph() {
     for (i = 0; i < N; i++) {
         let temp = [];
@@ -121,7 +97,7 @@ function main() {
 
 window.addEventListener("load", function () {
     document.getElementById('btn-auto').addEventListener('click', function () {
-        // location.reload();
+        isInputData = false;
         clearGraph();
         main();
     });
