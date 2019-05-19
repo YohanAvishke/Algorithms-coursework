@@ -72,14 +72,20 @@ function renderGraph() {
         }
     });
 
+    let forceAtlas2Config = {
+        startingIterations : 1000,
+        iterationsPerRender: 1000
+    };
+
     // Start the layout:
     s.refresh();//render
-    s.startForceAtlas2();
+    s.startForceAtlas2(forceAtlas2Config);
     //to stop force atlas
     window.setTimeout(function () {
+        s.stopForceAtlas2();
         s.killForceAtlas2();
         // Initialize the dragNodes plugin:
-        var dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
+        let dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
 
         dragListener.bind('startdrag', function (event) {
         });
@@ -89,12 +95,13 @@ function renderGraph() {
         });
         dragListener.bind('dragend', function (event) {
         });
-    }, 10000);
+    }, 1000);
 }
 
 function clearGraph() {
     s.graph.clear();
     s.refresh();
+    s.stopForceAtlas2();
     s.killForceAtlas2();
     s.graph.kill();
 }
