@@ -108,12 +108,19 @@ function main() {
     generateSteps();
 }
 
-window.addEventListener("load", function () {
-    document.getElementById('btn-auto').addEventListener('click', function () {
+$(document).ready(function(){
+    $('#btn-auto').click(function () {
         isInputData = false;
         clearGraph();
         main();
     });
+    $("#form-input").submit(function (e) {
+        e.preventDefault();
+        let manN = $("#inputNodes").val();
+        $('#inputModal').modal('show')
+
+    });
     main();
 });
+
 
