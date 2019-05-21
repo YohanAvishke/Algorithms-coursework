@@ -22,6 +22,17 @@ function generateGraph() {
             } else temp.push(value);
         }
         flowgraph.push(temp);//add node to other_nodes flow
+
+        // use to add manual flow
+        // flowgraph = [
+        //     [0,16,13,0,0,0],
+        //     [0,0,10,12,0,0],
+        //     [0,4,0,0,14,0],
+        //     [0,0,9,0,0,20],
+        //     [0,0,0,7,0,4],
+        //     [0,0,0,0,0,0]
+        // ];
+
     }
     console.log(flowgraph);
 }
@@ -82,6 +93,8 @@ function changeStep(step) {
 
 function main() {
     N = ((Math.random() * 7) + 6 | 0);
+    //to input nodes manually
+    // N = 6;
     flowgraph = [];
     augPaths = [];
     maxflow = 0;
